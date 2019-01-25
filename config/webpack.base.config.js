@@ -2,19 +2,21 @@ var webpack = require('webpack')
 var fs = require('fs')
 var path = require('path')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var WebpackDevServer = require('webpack-dev-server')
-var ManifestPlugin = require('webpack-manifest-plugin')
+// var ManifestPlugin = require('webpack-manifest-plugin')
+var SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
+// var CleanWebpackPlugin = require('clean-webpack-plugin')
 var config = {
     node: {
         fs: 'empty'
     },
     mode: 'development',
+    devtool: "source-map",
     entry :[
         path.resolve(__dirname,"../src/index.js")
     ],
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname,'../dist/')
+        path: path.resolve(__dirname,'../')
     },
     module:{
         rules:[
@@ -26,69 +28,20 @@ var config = {
                 ]
             },
             {
+                test: /\.less$/,
+                use:[
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ]
+            },
+            {
                 test: /\.css$/,
                 use: [
                     "style-loader",
                     "css-loader"
                 ]
             }
-            // { 
-            //     test: /\.html$/, 
-            //     loader: "file-loader?name=[path][hash:8][name].[ext]!extract-loader!html-loader" 
-            // }
-            // {
-            //     test: /\.jsx?$/,
-            //     use:[
-            //         // {
-            //         //     loader: 'babel-loader',
-            //         // },
-            //         {options:{
-            //             loader: 'babel-loader',
-            //             query: {
-            //                 presets: ['@babel/preset-react', '@babel/preset-es2015']
-            //             }
-            //         }}
-            //     ],
-            //     exclude:
-            //     [
-            //     path.resolve(__dirname, "./node_modules")
-            //     ],
-            // }
-        //   {
-        //       test: /\.scss$/,
-        //       use: [
-        //         MiniCssExtractPlugin.loader,
-        //         "css-loader",
-        //         {
-        //           loader: "sass-loader",
-        //           options: {
-    
-        //           }
-        //         }
-        //       ]
-        //   },
-        //   {
-        //     test: /\.(gif|jpg|png)\??.*$/,
-        //     use: [{
-        //       loader:'url-loader',
-        //       options:{
-        //         limit: 1024,
-        //         name: 'resource/[name].[ext]'
-        //       }
-        //     }]
-        //   },
-        //   {
-        //       test: /\.(woff|svg|eot|ttf)\??.*$/,
-        //       use:[
-        //         {
-        //           loader: 'url-loader',
-        //           options:{
-        //             limit:1024,
-        //             name: "fonts/[name].[ext]"
-        //           }
-        //         }
-        //       ]
-        //   }
         ]
     },
     plugins:[
@@ -96,17 +49,27 @@ var config = {
             title: "v2-pwa",
             template: path.resolve(__dirname,'../src/index.html')
         }),
-        new ManifestPlugin({
-            fileName: 'asset-manifest.json',
-            publicPath: path.resolve(__dirname,'../dist/'),
-            writeToFileEmit: true
-            // basePath: path.resolve(__dirname,'../dist/')
+        new SwRegisterWebpackPlugin({
+            filePath: path.resolve(__dirname,'../sw.js')
         })
     ],
     devServer:{
         port: 7090,
-        compress: true,
-        contentBase: path.resolve(__dirname,"../dist/")
+        compress: false,
+        hot: false,
+        disableHostCheck: true,
+        proxy:{
+            "/test": {
+                target: "http://127.0.0.1:3002/",
+                changeOrigin: true,
+                secure: false
+            },
+            "/api": {
+                target: "https://www.v2ex.com/",
+                changeOrigin: true,
+                secure: false
+            }
+        }
     }
 }
 

@@ -1,0 +1,105 @@
+@nav_color: #FFF;
+@nav_bgcolor :#471dd2;
+.Nav{
+    height: 50px;
+    .main{
+        position: fixed;
+        background: rgba(0,0,0,0.5);
+        width: 100vw;
+        height: 100vh;
+        transition: all ease-in 0.5s;
+        .nav-content{
+            width: 80%;
+            height: 100%;
+            background: #fff;
+            .banner{
+                width: 100%;
+                height: 150px;
+                // background: #f9f9f9 #d21d1d #471dd2;
+                background:  @nav_bgcolor;
+                color: @nav_color;
+                position: relative;
+                .person{
+                    position: absolute;
+                    bottom: 10px;
+                    left: 10px;
+                    display: flex;
+                    align-items: flex-end;
+                }
+                img{
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
+            .content-list{
+                .list-item{
+                    font-size: 18px;
+                    line-height: 18px;
+                    margin: 10px 0;
+                    font-weight: bold;
+                    padding: 20px;
+                    &.active{
+                        background: rgb(233,233,233)
+                    }
+                    i {
+                        margin-right: 10px;
+                        font-size: 14px;
+                    }
+                }
+                .v-config{
+                    margin-top: 40%;
+                    transform: translateY(-50%);
+                    ul{
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: nowrap;
+                        justify-content: space-around;
+                        li{
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            &.active{
+                                background: #eee;
+                                border-color: #eee;
+                            }
+                        }
+                    }
+                }
+                .version{
+                    text-align: center;
+                    padding: 20px 10px 10px;
+                }
+            }
+            .footer{
+                border-top: 1px solid #ccc;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 80%;
+                box-sizing: border-box;
+                padding: 10px 20px;
+                .fa{
+                    font-size: 18px;
+                    cursor: pointer;
+                }
+                .fa-cog{
+
+                }
+                .fa-question-circle{
+                    position: absolute;
+                    right: 10px;
+                }
+            }
+        }
+    }
+    .top{
+        width: 100vw;
+        background: @nav_bgcolor;
+        color: @nav_color;
+        i{
+            display: block;
+            padding: 15px;
+        }
+    }
+}

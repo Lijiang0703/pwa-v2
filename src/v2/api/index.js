@@ -1,4 +1,4 @@
-var publicPath = "https://www.v2ex.com/api";
+var publicPath = "/api";
 
 var API = {
     HOT: publicPath + "/topics/hot.json",
